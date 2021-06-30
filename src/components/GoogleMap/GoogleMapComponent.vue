@@ -97,6 +97,7 @@ export default {
             });
             axios                                                       
                 .get('https://tedirant.github.io/v1/places/map?bbox=72.21563761672184,40.44199805633072,75.4426971893986,43.196796384822015&units.temperature=celsius&units.distance=kilometer&units.pressure=millibar&AQI=US&language=ru')
+                // .get('http://localhost:8080/v1/places/map?bbox=72.21563761672184,40.44199805633072,75.4426971893986,43.196796384822015&units.temperature=celsius&units.distance=kilometer&units.pressure=millibar&AQI=US&language=ru')
                 .then((allPlaces) => {
                     markers.value.length = 0;
                     if (cityName != 'all')

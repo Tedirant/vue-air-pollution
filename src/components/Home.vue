@@ -14,7 +14,7 @@
 *{padding: 0; margin: 0; box-sizing: border-box;}
 body{height: 900px;}
 header {
-	background: url(/img/air.60fac421.jpg);
+	background: url('../assets/images/air.jpg');
     text-align: center;
     width: 100%;
     height: 100vh;
@@ -59,3 +59,18 @@ button:hover{
 	cursor: pointer;
 }
 </style>
+
+<script>
+import { onMounted } from '@vue/runtime-core';
+import { getMoreInfoAboutPlaceRequest } from '../services/api';
+
+export default {
+    setup() {
+        "fb814a9e852613a232fa"
+
+        onMounted(() => {
+            console.log(getMoreInfoAboutPlaceRequest("fb814a9e852613a232fa"));
+        })
+    },
+}
+</script>
