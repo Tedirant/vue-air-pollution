@@ -8,7 +8,9 @@
             :zoom="center.zoom"
             :styles="googleMapStyles"
         >
-            <Marker v-for="(marker, index) in markers" :key="index" :options="{ icon: marker.icon, position: marker.coordinates }" @click="childComponent.getMoreInfoAboutPlace(marker.id)" />
+                <Marker v-for="(marker, index) in markers" :key="index" :options="{ icon: marker.icon, position: marker.coordinates }" @click="childComponent.getMoreInfoAboutPlace(marker.id)" />
+                <Circle v-for="(circle, index) in circles" :key="index" :options="circle" />
+                
         </GoogleMap>
     </div>
     <li class="nav-item dropdown">
@@ -27,18 +29,20 @@
 
 <script lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { GoogleMap, Marker } from 'vue3-google-map';
+import { GoogleMap, Marker, Circle } from 'vue3-google-map';
 import googleMapStyles from './google-map-style.js';
+// import placesJSON from './PlacesJSON.js';
 import CardWithMoreInfo from '../CardWithMoreInfo.vue';
 import axios from 'axios';
 
 export default {
-    components: { GoogleMap, Marker, CardWithMoreInfo },
+    components: { GoogleMap, Marker, Circle, CardWithMoreInfo },
     setup() {
         const childComponent = ref();
 
         const markers = ref([]);
         const cityName = ref('all');
+        const circles = ref([]);
 
         const center = computed(() => {
             if (cityName.value == 'bishkek') {
@@ -95,13 +99,51 @@ export default {
                 title: '',
                 icon: ''
             });
+
+            // markers.value.length = 0;
+            // if (cityName != 'all') {
+            //     placesJSON.forEach(place => {
+            //         if (place.url.split('/')[2] == cityName) {
+            //             marker.id = place.id
+            //             marker.cityName = cityName;
+            //             marker.coordinates.lat = place.coordinates.latitude; 
+            //             marker.coordinates.lng = place.coordinates.longitude, 
+            //             marker.aqi = place.aqi;
+            //             marker.icon = marker.aqi <= 50 ?
+            //                 'https://www.airkaz.org/image/markerGreen.png' : marker.aqi <= 100 && marker.aqi > 50 ?
+            //                 'https://www.airkaz.org/image/markerYellow.png' : marker.aqi <= 150 && marker.aqi > 100 ?
+            //                 'https://www.airkaz.org/image/markerOrange.png' : 'https://www.airkaz.org/image/markerRed.png';
+            //             marker.title = place.name,
+            //             marker.title = marker.title.split(': ')[1];
+            //             markers.value.push(JSON.parse(JSON.stringify(marker)));
+            //         }
+            //     });
+            // }
+            // else {
+            //     placesJSON.forEach(place => {
+            //         marker.id = place.id
+            //         marker.cityName = cityName;
+            //         marker.coordinates.lat = place.coordinates.latitude; 
+            //         marker.coordinates.lng = place.coordinates.longitude, 
+            //         marker.aqi = place.aqi;
+            //         marker.icon = marker.aqi <= 50 ? 'https://www.airkaz.org/image/markerGreen.png'
+            //             : marker.aqi <= 100 && marker.aqi > 50 ? 'https://www.airkaz.org/image/markerYellow.png'
+            //             : marker.aqi <= 150 && marker.aqi > 100 ? 'https://www.airkaz.org/image/markerOrange.png'
+            //             : 'https://www.airkaz.org/image/markerRed.png';
+            //         marker.title = place.name,
+            //         marker.title = marker.title.split(': ')[1];
+            //         markers.value.push(JSON.parse(JSON.stringify(marker)));
+            //     });
+            // }
+
             axios                                                       
-                .get('https://tedirant.github.io/v1/places/map?bbox=72.21563761672184,40.44199805633072,75.4426971893986,43.196796384822015&units.temperature=celsius&units.distance=kilometer&units.pressure=millibar&AQI=US&language=ru')
-                // .get('http://localhost:8080/v1/places/map?bbox=72.21563761672184,40.44199805633072,75.4426971893986,43.196796384822015&units.temperature=celsius&units.distance=kilometer&units.pressure=millibar&AQI=US&language=ru')
+                // .get('https://tedirant.github.io/v1/places/map?bbox=72.21563761672184,40.44199805633072,75.4426971893986,43.196796384822015&units.temperature=celsius&units.distance=kilometer&units.pressure=millibar&AQI=US&language=ru')
+                .get('http://localhost:8080/v1/places/map?bbox=72.21563761672184,40.44199805633072,75.4426971893986,43.196796384822015&units.temperature=celsius&units.distance=kilometer&units.pressure=millibar&AQI=US&language=ru')
                 .then((allPlaces) => {
                     markers.value.length = 0;
+                    circles.value.length = 0;
                     if (cityName != 'all')
-                        allPlaces.data.forEach(place => {
+                        allPlaces.data.forEach((place, key) => {
                             if (place.url.split('/')[2] == cityName) {
                                 marker.id = place.id
                                 marker.cityName = cityName;
@@ -115,10 +157,23 @@ export default {
                                 marker.title = place.name,
                                 marker.title = marker.title.split(': ')[1];
                                 markers.value.push(JSON.parse(JSON.stringify(marker)));
+
+                                circles.value[key]= {
+                                    center: { lat: marker.coordinates.lat, lng: marker.coordinates.lng },
+                                    radius: 500,
+                                    strokeColor: '#FF0000',
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 2,
+                                    fillColor: marker.aqi <= 50 ?
+                                    'green' : marker.aqi <= 100 && marker.aqi > 50 ?
+                                    'yellow' : marker.aqi <= 150 && marker.aqi > 100 ?
+                                    'orange' : 'red',
+                                    fillOpacity: 0.35,
+                                }
                             }
                         });
                     else {
-                        allPlaces.data.forEach(place => {
+                        allPlaces.data.forEach((place, key) => {
                             marker.id = place.id
                             marker.cityName = cityName;
                             marker.coordinates.lat = place.coordinates.latitude; 
@@ -131,13 +186,26 @@ export default {
                             marker.title = place.name,
                             marker.title = marker.title.split(': ')[1];
                             markers.value.push(JSON.parse(JSON.stringify(marker)));
+
+                            circles.value[key]= {
+                                center: { lat: marker.coordinates.lat, lng: marker.coordinates.lng },
+                                radius: 500,
+                                strokeColor: '#FF0000',
+                                strokeOpacity: 0.8,
+                                strokeWeight: 2,
+                                fillColor: marker.aqi <= 50 ?
+                                    'green' : marker.aqi <= 100 && marker.aqi > 50 ?
+                                    'yellow' : marker.aqi <= 150 && marker.aqi > 100 ?
+                                    'orange' : 'red',
+                                fillOpacity: 0.35,
+                            }
                         });
                     }
                 })
                 .catch((error) => console.log(error));
         }
 
-        return { center, markers, googleMapStyles, childComponent, cityName }
+        return { center, markers, googleMapStyles, childComponent, cityName, circles }
     },
 }
 </script>

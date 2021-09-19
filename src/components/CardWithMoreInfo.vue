@@ -1,5 +1,5 @@
 <template>
-        <div class="card" style="width: 18rem; min-width: 30%; max-width: 30%;">
+        <div v-if="infoAboutPlace.name" class="card" style="width: 18rem; min-width: 30%; max-width: 30%;">
             <div 
                 :class="{
                     'yellow': infoAboutPlace.color == 'yellow',
@@ -25,11 +25,37 @@
                 <a href="#" class="card-link">Card link</a>
             </div>
         </div>
+
+
+        <!-- <div v-if="infoAboutPlace.name" class="card" style="width: 18rem; min-width: 30%; max-width: 30%;">
+            <div 
+                :class="{
+                    'yellow': infoAboutPlace.color == 'yellow',
+                    'orange': infoAboutPlace.color == 'orange',
+                    'green': infoAboutPlace.color == 'green',
+                    'red': infoAboutPlace.color == 'red',
+                }" 
+                style="min-height: 100px;">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ infoAboutPlace.name }}</h5>
+                <p class="card-text">
+                    {{ infoAboutPlace.fullName }}
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">AQI={{ infoAboutPlace.aqi }}</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+            </div>
+        </div> -->
 </template>
 
 <script>
 import { reactive, ref } from 'vue';
 import { getMoreInfoAboutPlaceRequest } from '../services/api';
+// import placesJSON from './GoogleMap/PlacesJSON.js';
 export default{
     setup() {
         const info = ref({});
@@ -57,6 +83,13 @@ export default{
             color: ''
         });
 
+        // const infoAboutPlace = reactive({
+        //     fullName: '',
+        //     name: '',
+        //     aqi: '',
+        //     color: ''
+        // });
+
         const getMoreInfoAboutPlace = async (placeId) => {
             info.value = await getMoreInfoAboutPlaceRequest(placeId);
             console.log(info);
@@ -72,6 +105,17 @@ export default{
             infoAboutPlace.sources = info.value.sources[0];
             console.log(infoAboutPlace);
         }
+
+        // const getMoreInfoAboutPlace = (placeId) => {
+        //     info.value = placesJSON.find(x => x.id == placeId);
+        //     infoAboutPlace.fullName = info.value.url;
+        //     infoAboutPlace.aqi = info.value.aqi;
+        //     infoAboutPlace.color = info.value.aqi <= 50 ?
+        //                         'green' : info.value.aqi <= 100 && info.value.aqi > 50 ?
+        //                         'yellow' : info.value.aqi <= 150 && info.value.aqi > 100 ?
+        //                         'orange' : 'red';
+        //     infoAboutPlace.name = info.value.name;
+        // }
 
         return {
             getMoreInfoAboutPlace, infoAboutPlace
