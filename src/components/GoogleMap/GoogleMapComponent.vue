@@ -144,8 +144,8 @@ export default {
 
 <style scoped>
 .google-map {
-    width: 70%;
-    height: calc(100vh - 154px)
+    width: 100%;
+    height: calc(100vh - 168px);
 }
 
 .nav-item.dropdown {
@@ -153,5 +153,10 @@ export default {
     right: 0;
     padding: 25px 6rem 25px 1rem;
     list-style: none;
+}
+
+.classs {
+    position: inherit;
+    top: 0;
 }
 </style>

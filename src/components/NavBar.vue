@@ -62,7 +62,7 @@ export default {
     font-weight: 600;
 }
 
-.nav-item:not(:last-child) a::after {
+.nav-item a::after {
     content: '';
     width: 100%;
     height: 1px;

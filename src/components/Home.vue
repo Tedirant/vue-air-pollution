@@ -11,13 +11,17 @@
 </template>
 
 <style scoped>
-*{padding: 0; margin: 0; box-sizing: border-box;}
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 body{height: 900px;}
 header {
 	background: url('../assets/images/air.jpg');
     text-align: center;
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 168px);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
