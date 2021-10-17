@@ -70,8 +70,6 @@ import { getMoreInfoAboutPlaceRequest } from '../services/api';
 
 export default {
     setup() {
-        "fb814a9e852613a232fa"
-
         onMounted(() => {
             console.log(getMoreInfoAboutPlaceRequest("fb814a9e852613a232fa"));
         })
