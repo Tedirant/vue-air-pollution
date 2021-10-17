@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "publish-vue": "npm run build && cd dist && git add . && git checkout origin/gh-pages && git commit -m 'Deploy' && git checkout origign/master"
+    "publish-vue": "npm run build && cd dist && git add dist && git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "axios": "^0.21.1",
