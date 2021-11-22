@@ -21,7 +21,7 @@ header {
 	background: url('../assets/images/air.jpg');
     text-align: center;
     width: 100%;
-    height: calc(100vh - 168px);
+    height: calc(100vh - 94.6px);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -65,14 +65,14 @@ button:hover{
 </style>
 
 <script>
-import { onMounted } from '@vue/runtime-core';
-import { getMoreInfoAboutPlaceRequest } from '../services/api';
+// import { onMounted } from '@vue/runtime-core';
+// import { getMoreInfoAboutPlaceRequest } from '../services/api';
 
 export default {
     setup() {
-        onMounted(() => {
-            console.log(getMoreInfoAboutPlaceRequest("fb814a9e852613a232fa"));
-        })
+        // onMounted(() => {
+        //     console.log(getMoreInfoAboutPlaceRequest("fb814a9e852613a232fa"));
+        // })
     },
 }
 </script>

@@ -1,8 +1,7 @@
 <template>
-    <footer class="bg-light text-center text-lg-start">
-  <div class="text-center" style="height: 84px; padding: 32px;background-color: rgba(0, 0, 0, 0.2);">
-    © 2020 Copyright:
-    <a class="text-dark" href="https://mdbootstrap.com/">KRSU.com</a>
-  </div>
-</footer>
+    <footer class="page-footer font-small blue bg-light">
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="https://naskr.kg/ru/"> Национальная академия наук КР </a>
+        </div>
+    </footer>
 </template>

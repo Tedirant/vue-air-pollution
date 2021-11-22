@@ -54,7 +54,7 @@
 
 <script>
 import { reactive, ref } from 'vue';
-import { getMoreInfoAboutPlaceRequest } from '../services/api';
+import { getMoreInfoAboutPlaceRequest } from '@/services/api';
 // import placesJSON from './GoogleMap/PlacesJSON.js';
 export default{
     setup() {

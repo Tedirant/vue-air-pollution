@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../components/Home.vue';
-import GoogleMapComponent from '../components/GoogleMap/GoogleMapComponent.vue';
-import About from '../views/About.vue';
+import Home from '@/components/Home.vue';
+import GoogleMapComponent from '@/components/GoogleMap/GoogleMapComponent.vue';
+import About from '@/views/About.vue';
 
 const routes = [
     {
